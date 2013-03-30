@@ -1,0 +1,1 @@
+# DubSub Plugin for Play Framework
