@@ -16,6 +16,10 @@ val main = play.Project(appName, appVersion, appDependencies).settings(
 )
 ```
 
+Add to your conf/play.plugins file (and create if it does not exist), where 500 is the priority that you can adjust relative to other plugins.
+
+	500:uk.co.panaxiom.dubsub.DubSubPlugin
+
 ## Usage
 
 You will need to define an actor which responds to Subscribe, Unsubscribe and Publish in order to receive messages from DubSub:
@@ -65,3 +69,7 @@ dubsub {
   }
 }
 ```
+
+## Example
+
+Play comes with a websocket-chat example, which has been enhanced with DubSub: [websocket-chat-dubsub](https://github.com/alexanderjarvis/websocket-chat-dubsub)
