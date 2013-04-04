@@ -6,7 +6,7 @@
 
 Add the following to your Build.scala
 
-```
+```scala
 val appDependencies = Seq(
   "uk.co.panaxiom" %% "play-dubsub" % "0.1-SNAPSHOT"
 )
@@ -20,7 +20,7 @@ val main = play.Project(appName, appVersion, appDependencies).settings(
 
 You will need to define an actor which responds to Subscribe, Unsubscribe and Publish in order to receive messages from DubSub:
 
-```
+```scala
 class SocketActor extends Actor {
   def receive = {
 	case Subscribe(channel) => Logger.info("Subscribed to dubsub channel " + channel)
@@ -32,16 +32,16 @@ class SocketActor extends Actor {
 
 From within this actor you can send messages to DubSub like the following:
 
-```
+```scala
 val dubsub = DubSubPlugin.dubsub
 
-# Subscribes this actor to messages published to the channel with "topic"
+// Subscribes this actor to messages published to the channel with "topic"
 dubsub ! Subscribe("topic")
 
-# Unsubscribes this actor from "topic"
+// Unsubscribes this actor from "topic"
 dubsub ! Unsubscribe("topic")
 
-# Publishes a message to all subscribers of "topic" (across all cluster nodes)
+// Publishes a message to all subscribers of "topic" (across all cluster nodes)
 dubsub ! Publish("topic", "message")
 ```
 
