@@ -42,7 +42,7 @@ class DubSubPlugin(application: Application) extends Plugin {
 
 object DubSubPlugin {
 
-  def actor(implicit app: Application) = current.system.actorFor("/user/DubSub")
+  def dubsub(implicit app: Application) = current.system.actorFor("/user/DubSub")
 
   def current(implicit app: Application): DubSubPlugin = app.plugin[DubSubPlugin] match {
     case Some(plugin) => plugin

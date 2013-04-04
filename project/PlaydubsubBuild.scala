@@ -13,9 +13,10 @@ object PlaydubsubBuild extends Build {
       scalaVersion := "2.10.0",
       // add other settings here
       libraryDependencies ++= Seq(
-        "play" %% "play" % "2.1.0",
+        "play" %% "play" % "2.1.1",
         "uk.co.panaxiom" % "dubsub" % "0.1-SNAPSHOT"
-      )
+      ),
+      resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
     )
   )
 

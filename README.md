@@ -33,23 +33,25 @@ class SocketActor extends Actor {
 From within this actor you can send messages to DubSub like the following:
 
 ```
+val dubsub = DubSubPlugin.dubsub
+
 # Subscribes this actor to messages published to the channel with "topic"
-DubSubPlugin.actor ! Subscribe("topic")
+dubsub ! Subscribe("topic")
 
 # Unsubscribes this actor from "topic"
-DubSubPlugin.actor ! Unsubscribe("topic")
+dubsub ! Unsubscribe("topic")
 
 # Publishes a message to all subscribers of "topic" (across all cluster nodes)
-DubSubPlugin.actor ! Publish("topic", "message")
+dubsub ! Publish("topic", "message")
 ```
 
 ## Start
 
 Set the remote port of at least your first seed node as a runtime property. Other nodes can be started without this and will pick a random port.
-	
+
 	play stage
 	target/start -Ddubsub.akka.remote.netty.port=2551
-	
+
 You can specify the seed-nodes of the cluster in your application.conf:
 
 ```
