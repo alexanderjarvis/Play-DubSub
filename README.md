@@ -25,9 +25,11 @@ Add to your conf/play.plugins file (and create if it does not exist), where 500 
 You will need to define an actor which responds to Subscribe, Unsubscribe and Publish in order to receive messages from DubSub:
 
 ```scala
+import uk.co.panaxiom.dubsub._
+
 class SocketActor extends Actor {
   def receive = {
-	case Subscribe(channel) => Logger.info("Subscribed to dubsub channel " + channel)
+    case Subscribe(channel) => Logger.info("Subscribed to dubsub channel " + channel)
     case Unsubscribe(channel) => Logger.info("Unsubscribed to dubsub channel " + channel)
     case Publish(channel, message) => Logger.info("Publish from dubsub " + channel + " message " + message)
   }
