@@ -22,21 +22,29 @@ import akka.cluster.Cluster
 
 class DubSubPlugin(application: Application) extends Plugin {
 
+  private var started = false
+
   lazy val system = {
     import com.typesafe.config.ConfigFactory
     val config = ConfigFactory.load()
-    ActorSystem("DubSubSystem", config.getConfig("dubsub"))
+    val system = ActorSystem("DubSubSystem", config.getConfig("dubsub"))
+    system.actorOf(Props[DubSub], "DubSub")
+    started = true
+    Logger.info("DubSub has started")
+    system
   }
 
   override def onStart {
-    system.actorOf(Props[DubSub], "DubSub")
-    Logger.info("DubSub has started")
+    if (Play.current.mode == Mode.Prod)
+      system
   }
 
   override def onStop {
-    system.shutdown
-    system.awaitTermination
-    Logger.info("DubSub has stopped")
+    if (started) {
+      system.shutdown
+      system.awaitTermination
+      Logger.info("DubSub has stopped")
+    }
   }
 }
 
