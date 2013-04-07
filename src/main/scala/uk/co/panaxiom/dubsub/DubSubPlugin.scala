@@ -22,31 +22,43 @@ import akka.cluster.Cluster
 
 class DubSubPlugin(application: Application) extends Plugin {
 
-  lazy val system = {
-    import com.typesafe.config.ConfigFactory
-    val config = ConfigFactory.load()
-    ActorSystem("DubSubSystem", config.getConfig("dubsub"))
+  private var dubSubSystemEnabled = false
+
+  lazy val dubsubSystem: ActorSystem = {
+    val system = ActorSystem("DubSubSystem", app.configuration.underlying.getConfig("dubsub"), app.classloader)
+    dubSubSystemEnabled = true
+    Logger("play").info("DubSub system has started")
+    system
   }
 
-  override def onStart {
-    system.actorOf(Props[DubSub], "DubSub")
-    Logger.info("DubSub has started")
+  override def onStart() {
+	// Empty, laoding the system here triggers Netty exceptions
   }
 
-  override def onStop {
-    system.shutdown
-    system.awaitTermination
-    Logger.info("DubSub has stopped")
+  override def onStop() {
+    if (dubSubSystemEnabled) {
+      dubsubSystem.shutdown()
+      dubsubSystem.awaitTermination()
+      Logger("play").info("DubSub has stopped")
+    }
   }
 }
 
 object DubSubPlugin {
+  
+  // The downside of this change is that we avid the Netty exception but a call to DubSubPlugin.system should be done when accessing the first page of the application (Application.index)
+  // or at a similar point, otherwise the channels subscribing to it may fail due to it not being initialized (that happens in the websockets example and the preStart call, the subscribe 
+  // fails and messages are not shared)
 
-  def dubsub(implicit app: Application) = current.system.actorFor("/user/DubSub")
-
-  def current(implicit app: Application): DubSubPlugin = app.plugin[DubSubPlugin] match {
-    case Some(plugin) => plugin
-    case _ => throw new PlayException("DubSubPlugin Error", "The DubSubPlugin has not been initialized! Please edit your conf/play.plugins file and add the following line: '500:uk.co.panaxiom.dubsub.DubSubPlugin' (500 is an arbitrary priority and may be changed to match your needs).")
+  val system = {
+    val system = Play.current.plugin[DubSubPlugin].map(_.dubsubSystem).getOrElse {
+      sys.error("The DubSubPlugin has not been initialized! Please edit your conf/play.plugins file and add the following line: '500:uk.co.panaxiom.dubsub.DubSubPlugin' (500 is an arbitrary priority and may be changed to match your needs).")
+    }
+    system.actorOf(Props[DubSub], "DubSub")  //register system here to avoid Netty issues
+    system
   }
+
+
+  val dubsub = system.actorFor("/user/DubSub")
 
 }
