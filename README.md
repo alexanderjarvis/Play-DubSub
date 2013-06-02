@@ -8,7 +8,7 @@ Add the following to your Build.scala
 
 ```scala
 val appDependencies = Seq(
-  "uk.co.panaxiom" %% "play-dubsub" % "0.1-SNAPSHOT"
+  "uk.co.panaxiom" %% "play-dubsub" % "0.2-SNAPSHOT"
 )
 
 val main = play.Project(appName, appVersion, appDependencies).settings(
@@ -56,7 +56,7 @@ dubsub ! Publish("topic", "message")
 Set the remote port of at least your first seed node as a runtime property. Other nodes can be started without this and will pick a random port.
 
 	play stage
-	target/start -Ddubsub.akka.remote.netty.port=2551
+	target/start -Ddubsub.akka.remote.netty.tcp.port=2551
 
 You can specify the seed-nodes of the cluster in your application.conf:
 
@@ -65,8 +65,8 @@ dubsub {
   akka {
     cluster {
       seed-nodes = [
-        "akka://DubSubSystem@127.0.0.1:2551",
-        "akka://DubSubSystem@127.0.0.1:2552"]
+        "akka.tcp://DubSubSystem@127.0.0.1:2551",
+        "akka.tcp://DubSubSystem@127.0.0.1:2552"]
     }
   }
 }
