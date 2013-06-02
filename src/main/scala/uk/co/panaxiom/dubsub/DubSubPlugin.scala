@@ -28,7 +28,7 @@ class DubSubPlugin(application: Application) extends Plugin {
     import com.typesafe.config.ConfigFactory
     val config = ConfigFactory.load()
     val system = ActorSystem("DubSubSystem", config.getConfig("dubsub"))
-    system.actorOf(Props[DubSub], "DubSub")
+    system.actorOf(DubSub.props(), "DubSub")
     started = true
     Logger.info("DubSub has started")
     system
