@@ -24,6 +24,8 @@ class DubSubPlugin(application: Application) extends Plugin {
 
   private var started = false
 
+  def isStarted: Boolean = started
+
   lazy val system = {
     import com.typesafe.config.ConfigFactory
     val config = ConfigFactory.load()
