@@ -10,10 +10,10 @@ object PlaydubsubBuild extends Build {
       name := "play-dubsub",
       organization := "uk.co.panaxiom",
       version := "0.2-SNAPSHOT",
-      scalaVersion := "2.10.1",
+      scalaVersion := "2.10.2",
       // add other settings here
       libraryDependencies ++= Seq(
-        "play" %% "play" % "2.1.1" % "provided",
+        "play" %% "play" % "2.1.2" % "provided",
         "uk.co.panaxiom" % "dubsub" % "0.2-SNAPSHOT"
       ),
       resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
