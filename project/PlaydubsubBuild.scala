@@ -9,14 +9,15 @@ object PlaydubsubBuild extends Build {
     settings = Project.defaultSettings ++ Seq(
       name := "play-dubsub",
       organization := "uk.co.panaxiom",
-      version := "0.2-SNAPSHOT",
+      version := "0.3-SNAPSHOT",
       scalaVersion := "2.10.2",
       // add other settings here
       libraryDependencies ++= Seq(
-        "play" %% "play" % "2.1.2" % "provided",
+        "com.typesafe.play" %% "play" % "2.2.1" % "provided",
         "uk.co.panaxiom" % "dubsub" % "0.2-SNAPSHOT"
       ),
-      resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
+      resolvers ++= Seq("Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
+                    Resolver.url("Alex's GitHub Repository", url("http://alexanderjarvis.github.com/snapshots/"))(Resolver.ivyStylePatterns))
     )
   )
 
