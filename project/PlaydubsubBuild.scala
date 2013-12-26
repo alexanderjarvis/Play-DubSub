@@ -10,11 +10,11 @@ object PlaydubsubBuild extends Build {
       name := "play-dubsub",
       organization := "uk.co.panaxiom",
       version := "0.3-SNAPSHOT",
-      scalaVersion := "2.10.2",
+      scalaVersion := "2.10.3",
       // add other settings here
       libraryDependencies ++= Seq(
         "com.typesafe.play" %% "play" % "2.2.1" % "provided",
-        "uk.co.panaxiom" % "dubsub" % "0.2-SNAPSHOT"
+        "uk.co.panaxiom" % "dubsub" % "0.3-SNAPSHOT"
       ),
       resolvers ++= Seq("Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
                     Resolver.url("Alex's GitHub Repository", url("http://alexanderjarvis.github.com/snapshots/"))(Resolver.ivyStylePatterns))
