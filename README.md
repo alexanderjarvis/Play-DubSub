@@ -8,7 +8,7 @@ Add the following to your Build.scala
 
 ```scala
 val appDependencies = Seq(
-  "uk.co.panaxiom" %% "play-dubsub" % "0.2-SNAPSHOT"
+  "uk.co.panaxiom" %% "play-dubsub" % "0.3-SNAPSHOT"
 )
 
 val main = play.Project(appName, appVersion, appDependencies).settings(
